@@ -1,0 +1,49 @@
+﻿@model IEnumerable<FFCJardinagens.Models.Orcamento>
+
+
+
+<h2>F.F.C Jardinagens Orçamento</h2>
+<h4>(62) 3249-1001 / 9 9269-9179</h4>
+<h4>firminojardineiro@outlook.com</h4>
+<h4>MANUTENÇÃO EM JARDINS E LIMPEZA DE LOTES</h4>
+<hr />
+
+<h4>Cliente: @ViewBag.Cliente</h4>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Descriminação)
+        </th>
+        <th>
+           Unidate
+        </th>
+        <th>
+           Valor produto / serviço
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Descriminação)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProdutoUnidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProdutoTotal)
+            </td>
+
+        </tr>
+        
+    }
+
+</table>
+
+<h4>Valor total: R$ @ViewBag.ValorTotal</h4>
