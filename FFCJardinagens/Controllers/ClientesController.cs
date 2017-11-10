@@ -15,9 +15,34 @@ namespace FFCJardinagens.Controllers
         private FFCJardinagensContext db = new FFCJardinagensContext();
 
         // GET: Clientes
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            return View(db.Clientes.ToList());
+
+            var listaProdutosSearch = db.Clientes.ToList();
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                search.ToLower();
+
+                var novaListaProdutos = new List<Cliente>();
+
+                var produtosSearched = listaProdutosSearch.Where(s => s.Nome.ToLower().Contains(search) || s.Empresa.ToLower().Contains(search)).ToList();
+
+                if (produtosSearched != null)
+                {
+                    return View(produtosSearched);
+                }
+                else
+                {
+                    return View();
+                }
+
+            }
+            else
+            {
+                return View(listaProdutosSearch.ToList());
+            }
+            
         }
 
         // GET: Clientes/Details/5

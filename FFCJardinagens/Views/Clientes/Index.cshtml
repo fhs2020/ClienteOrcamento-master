@@ -9,6 +9,22 @@
 <p>
     @Html.ActionLink("Adicionar novo cliente", "Create")
 </p>
+
+
+@using (Html.BeginForm())
+{
+
+    <div class="row" style="margin-left: 650px;">
+        <div class="col-lg-6">
+            @Html.Editor("Search", new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <input type="submit" value="Pesquisar" class="btn btn-primary btn-md" />
+        <br />
+    </div>
+
+}
+<br />
+
 <table class="table">
     <tr>
         <th>
