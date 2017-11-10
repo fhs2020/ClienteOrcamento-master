@@ -105,18 +105,18 @@ namespace FFCJardinagens.Controllers
             {
                 var total = (orcamento.ProdutoUnidade * orcamento.ProdutoTotal);
 
-                orcamento.ProdutoTotal = total;
+                orcamento.ValorTotal = total;
 
                 var listaOrcamentos = db.Orcamentoes.Where(x => x.TotalOrcamentoID == orcamento.TotalOrcamentoID).ToList();
 
                 foreach (var item in listaOrcamentos)
                 {
-                    countTotal += item.ProdutoTotal;
+                    countTotal += (item.ProdutoTotal * item.ProdutoUnidade);
                 }
 
-                countTotal += orcamento.ProdutoTotal;
+                var totalConvertido = Convert.ToDecimal(total);
 
-                orcamento.ValorTotal = countTotal;
+                countTotal += totalConvertido;
 
                 var totalOrcamento = db.TotalOrcamentoes.Find(orcamento.TotalOrcamentoID);
 
@@ -284,10 +284,33 @@ namespace FFCJardinagens.Controllers
             orcamento.ProdutoUnidade = produtoUnidade;
             orcamento.Descriminação = descriminacao;
 
+            var orcamentoTotal = db.TotalOrcamentoes.Find(orcamento.TotalOrcamentoID);
+
+            var checkValue = orcamentoTotal.ValorTotal;
+
             if (ModelState.IsValid)
             {
+                orcamento.ValorTotal = (orcamento.ProdutoTotal * orcamento.ProdutoUnidade);
+
                 db.Entry(orcamento).State = EntityState.Modified;
                 db.SaveChanges();
+
+                var todosItenns = db.Orcamentoes.Where(x => x.TotalOrcamentoID == totalOrcamentoID).ToList();
+
+                Decimal contador = 0;
+
+                foreach(var item in todosItenns)
+                {
+                    contador += (item.ProdutoTotal * item.ProdutoUnidade);
+                }
+
+                orcamentoTotal.ValorTotal = contador;
+              
+
+                db.Entry(orcamento).State = EntityState.Modified;
+                db.Entry(orcamentoTotal).State = EntityState.Modified;
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(orcamento);
@@ -313,6 +336,19 @@ namespace FFCJardinagens.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Orcamento orcamento = db.Orcamentoes.Find(id);
+
+            var orcamentoTotal = db.TotalOrcamentoes.Find(orcamento.TotalOrcamentoID);
+
+            var valorAtual = orcamento.ValorTotal;
+
+            var removedItem = (orcamento.ProdutoTotal * orcamento.ProdutoUnidade);
+
+            var itemToRemoveValue = (orcamentoTotal.ValorTotal -= orcamento.ValorTotal);
+
+            orcamentoTotal.ValorTotal = itemToRemoveValue;
+
+
+            db.Entry(orcamentoTotal).State = EntityState.Modified;
             db.Orcamentoes.Remove(orcamento);
             db.SaveChanges();
             return RedirectToAction("Index");

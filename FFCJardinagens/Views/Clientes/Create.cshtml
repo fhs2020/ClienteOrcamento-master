@@ -1,16 +1,13 @@
 ﻿@model FFCJardinagens.Models.Cliente
-
 @{
     ViewBag.Title = "Create";
 }
-
 <h2>Adicionar</h2>
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Cliente</h4>
         <hr />
@@ -23,7 +20,6 @@
             </div>
         </div>
 
-
         <div class="form-group">
             @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -31,7 +27,6 @@
                 @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -39,7 +34,6 @@
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Telefone, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -47,7 +41,6 @@
                 @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Celular, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -55,7 +48,6 @@
                 @Html.ValidationMessageFor(model => model.Celular, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.CNPJ, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -63,7 +55,6 @@
                 @Html.ValidationMessageFor(model => model.CNPJ, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Endereco, "Endereço", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -71,7 +62,6 @@
                 @Html.ValidationMessageFor(model => model.Endereco, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Cidade, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -79,7 +69,6 @@
                 @Html.ValidationMessageFor(model => model.Cidade, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.UF, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -87,7 +76,6 @@
                 @Html.ValidationMessageFor(model => model.UF, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.CEP, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -95,7 +83,6 @@
                 @Html.ValidationMessageFor(model => model.CEP, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Salvar" class="btn btn-success" />
@@ -103,11 +90,26 @@
         </div>
     </div>
 }
-
 <div>
     @Html.ActionLink("Voltar para lista de clientes", "Index")
 </div>
-
 @section Scripts {
+
+    <script src="~/Scripts/inputmask/jquery.inputmask.min.js"></script>
+
+
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#Telefone").inputmask("mask", { "mask": "(99) 9999-9999" });
+            $("#Celular").inputmask("mask", { "mask": "(99) 9999-99999" });
+            $("#CNPJ").inputmask("mask", { "mask": "99.999.999/9999-99" }, { reverse: true });
+            $("#CEP").inputmask("mask", { "mask": "99999-999" });
+        });
+
+    </script>
+
 }
